@@ -6,8 +6,8 @@ loaded_model = pickle.load(open('rf_model.sav', 'rb'))
 import pandas as pd
 
 # Set up Spotify API credentials
-client_id = '77e238f16d4c4ad696c0c13ebf18d6ba'
-client_secret = '2192639a6a8f477aa1fe31e915922386'
+client_id = "client_id"
+client_secret = 'client_secret'
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
