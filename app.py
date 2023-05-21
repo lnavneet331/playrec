@@ -5,9 +5,6 @@ import pickle
 loaded_model = pickle.load(open('rf_model.sav', 'rb'))
 import pandas as pd
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # Set up Spotify API credentials
 client_id = os.getenv("client_id")
@@ -21,6 +18,7 @@ def get_song_details(song_name):
     if results['tracks']['items']:
         track = results['tracks']['items'][0]
         spotify_id = track['id']
+        st.write("Spotify ID: ", spotify_id)
         audio_features = sp.audio_features([spotify_id])[0]
         return spotify_id, audio_features
     else:
@@ -38,16 +36,18 @@ if song_name:
 
     if spotify_id and audio_features:
         # Display song details
-        st.write(f"Spotify ID for '{song_name}': {spotify_id}")
+        # st.write(f"Spotify ID for '{song_name}': {spotify_id}")
+        # st.write("Audio Features:")
+        # st.write(audio_features)
+        # convert audio features to dataframe
         audio_features = pd.DataFrame(audio_features, index=[0])
         audio_features = audio_features.drop(['key', 'mode', 'speechiness', 'type', 'id', "uri", "track_href", "analysis_url", "time_signature"], axis=1)
-        audio_features = audio_features[['duration_ms', 'acousticness', 'instrumentalness',  'liveness', 'loudness', 'danceability', 'energy', 'tempo', 'valence']]
         result = loaded_model.predict(audio_features)
         for i in result:
             if i == -1:
-                st.write("You probably won't like this song 🥺")
+                st.write("You probably won't like this song")
             elif i == 1:
-                st.write("You probably will like this song 💖")
+                st.write("You probably will like this song")
             else:
                 st.write("Not enough data to predict")
     else:
