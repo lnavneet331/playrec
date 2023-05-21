@@ -45,10 +45,10 @@ if song_name:
         result = loaded_model.predict(audio_features)
         for i in result:
             if i == -1:
-                st.write("You probably won't like this song")
+                st.write("You probably won't like this song 🚫")
             elif i == 1:
-                st.write("You probably will like this song")
+                st.write("You probably will like this song 💖")
             else:
-                st.write("Not enough data to predict")
+                st.write("Not enough data to predict 🤷")
     else:
         st.write(f"No song found for '{song_name}'.")
